@@ -1,0 +1,13 @@
+Membros:
+Arthur Vaz Budny 
+Gabriel Henrique Ferreira Pirolo 
+
+1 - SELECT clientes.NOME, clientes.EMAIL, clientes.DATA_NASCI, clientes.CPF, endereco.RUA, endereco.NUMERO, endereco.BAIRRO, endereco.CIDADE, endereco.ESTADO, endereco.CEP FROM clientes, endereco WHERE ENDERECO.ID = clientes.END_ID; 
+
+2 - SELECT CLIENTES.NOME, CLIENTES.EMAIL, SERVICOS.NOME, SERVICOS.DESCRICAO FROM CLIENTES, SERVICOS, agendamentos WHERE clientes.CPF = agendamentos.CPF_CLIENTES AND agendamentos.ANDAMENTO = 'Cancelado';
+
+3 - SELECT agendamentos.datahora, servicos.DESCRICAO FROM agendamentos, servicos WHERE servicos.NOME = agendamentos.NOMESERV AND agendamentos.datahora like '2025-12%';
+
+4 - SELECT agendamentos.DATAHORA, agendamentos.ANDAMENTO, agendamentos.NOMESERV, clientes.nome FROM CLIENTES, USUARIOS, AGENDAMENTOS WHERE clientes.CPF = agendamentos.CPF_CLIENTES AND agendamentos.FUNCRESP = usuarios.ID AND usuarios.NOME = 'Paulo Oliveira';
+
+5 - SELECT clientes.NOME, clientes.DATA_NASCI, endereco.RUA, endereco.NUMERO, endereco.BAIRRO, endereco.CIDADE, endereco.ESTADO, endereco.CEP FROM CLIENTES, ENDERECO, AGENDAMENTO WHERE clientes.cpf = agendamentos.CPF_CLIENTES AND endereco.id = clientes.END_ID and agendamentos.ANDAMENTO = 'Concluído' and agendamentos.NOMESERV = 'corte masculino';

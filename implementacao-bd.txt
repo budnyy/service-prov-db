@@ -1,0 +1,108 @@
+CREATE DATABASE PROGRAMASERV;
+
+CREATE TABLE ENDERECO(
+	ID INT PRIMARY KEY,
+    RUA VARCHAR(45),
+    NUMERO INT,
+    BAIRRO VARCHAR(45),
+    CIDADE VARCHAR(45),
+    ESTADO VARCHAR(45),
+    CEP VARCHAR(45)
+);
+
+CREATE TABLE TELEFONES(
+	TELEFONE VARCHAR(13) PRIMARY KEY
+);
+
+CREATE TABLE CLIENTES(
+	NOME VARCHAR(45),
+    EMAIL VARCHAR(45),
+    DATA_NASCI DATE,
+    CPF VARCHAR(11) PRIMARY KEY,
+    END_ID INT,
+    FOREIGN KEY (END_ID) REFERENCES ENDERECO(ID)
+);
+
+CREATE TABLE USUARIOS(
+	NOME VARCHAR(45),
+    EMAIL VARCHAR(45),
+    DATA_NASCI DATE,
+    TIPO VARCHAR(45),
+    LOGIN VARCHAR(45),
+    SENHA VARCHAR(45),
+    ID INT PRIMARY KEY,
+	END_ID INT,
+    FOREIGN KEY (END_ID) REFERENCES ENDERECO(ID)
+); 
+
+CREATE TABLE SERVICOS(
+	NOME VARCHAR(45) PRIMARY KEY,
+    DESCRICAO VARCHAR(255),
+    VALOR DECIMAL(10,2)
+);
+
+CREATE TABLE AGENDAMENTOS(
+	DATAHORA DATETIME(0),
+    ANDAMENTO VARCHAR(45),
+    FUNCRESP INT,
+    NOMESERV VARCHAR(45),
+	CPF_CLIENTES VARCHAR(11),
+    PRIMARY KEY(FUNCRESP, NOMESERV, CPF_CLIENTES),
+    FOREIGN KEY (FUNCRESP) REFERENCES USUARIOS (ID),
+    FOREIGN KEY (NOMESERV) REFERENCES SERVICOS (NOME),
+    FOREIGN KEY (CPF_CLIENTES) REFERENCES CLIENTES (CPF)
+);
+
+ALTER TABLE TELEFONES
+ADD COLUMN (CPF_CLIENTES VARCHAR(11) NULL,
+USUARIO_ID INT NULL);
+
+ALTER TABLE TELEFONES
+ADD CONSTRAINT FK_TELEFONES_CLIENTES
+FOREIGN KEY (CPF_CLIENTES) REFERENCES CLIENTES(CPF);
+
+ALTER TABLE TELEFONES
+ADD CONSTRAINT FK_TELEFONES_USUARIOS
+FOREIGN KEY (USUARIO_ID) REFERENCES USUARIOS(ID);
+
+INSERT INTO Endereco (ID, Rua, Numero, Bairro, Cidade, Estado, CEP) VALUES
+(1, 'Rua das Orquídeas', 145, 'Centro', 'Curitiba', 'PR', '80010-000'),
+(2, 'Av. Paraná', 980, 'Jardim Paulista', 'Londrina', 'PR', '86020-150'),
+(3, 'Rua São José', 75, 'Bela Vista', 'Sorocaba', 'SP', '18035-040'),
+(4, 'Rua Flores da Cunha', 210, 'Centro', 'Ponta Grossa', 'PR', '84010-030'),
+(5, 'Av. Brasil', 1200, 'Centro', 'Maringá', 'PR', '87010-000');
+
+INSERT INTO Clientes (CPF, Nome, Email, Data_Nasci, End_ID) VALUES
+('12345678901', 'Gabriel Pirolo', 'gabriel.pirolo@example.com', '2002-08-12', 1),
+('98765432100', 'Mariana Lima', 'mariana.lima@example.com', '1998-05-20', 2),
+('45678912355', 'Ricardo Alves', 'ricardo.alves@example.com', '1985-03-10', 3),
+('32165498711', 'Fernanda Costa', 'fernanda.costa@example.com', '1992-12-01', 4),
+('15975346822', 'João da Silva', 'joao.silva@example.com', '1975-07-18', 5);
+
+INSERT INTO Usuarios (ID, Nome, Email, Data_Nasci, Tipo, Login, Senha, End_ID) VALUES
+(10, 'Mariana Souza', 'mariana.souza@empresa.com', '1995-04-22', 'Funcionário', 'mariana.s', 'senha123', 1),
+(11, 'Paulo Matias', 'paulo.matias@empresa.com', '1990-09-10', 'Funcionário', 'paulo.m', 'senha456', 2),
+(12, 'Ana Beatriz', 'ana.beatriz@empresa.com', '1997-02-17', 'Funcionário', 'ana.b', 'senha789', 3),
+(1, 'Carlos Alberto', 'carlos.admin@empresa.com', '1988-11-10', 'Administrador', 'carlos.admin', 'admin2025', 4),
+(2, 'Patrícia Gomes', 'patricia.admin@empresa.com', '1983-06-03', 'Administrador', 'patricia.g', 'adm123', 5);
+
+INSERT INTO Telefones (Telefone, CPF_CLIENTES, USUARIO_ID) VALUES
+('41999998888', NULL, 10),
+('43988887777', '98765432100', NULL),
+('15977776666', '45678912355', NULL),
+('42966665555', NULL, 2),
+('44955554444', '15975346822', NULL);
+
+INSERT INTO servicos (Nome, Descricao, Valor) VALUES
+('Consulta Técnica', 'Avaliação inicial do dispositivo/serviço.', 80.00),
+('Manutenção Geral', 'Serviço completo de manutenção.', 200.00),
+('Instalação de Software', 'Instalação e configuração.', 120.00),
+('Backup e Recuperação', 'Recuperação de arquivos e backup.', 150.00),
+('Limpeza Preventiva', 'Limpeza física e otimização do sistema.', 90.00);
+
+INSERT INTO Agendamentos (DATAHORA, ANDAMENTO, FUNCRESP, NOMESERV, CPF_CLIENTES) VALUES
+('2025-11-19 10:00:00', 'Agendado', 10, 'Consulta Técnica', '12345678901'),
+('2025-11-19 14:30:00', 'Em andamento', 11, 'Manutenção Geral','98765432100'),
+('2025-11-20 09:00:00', 'Agendado', 12, 'Instalação de Software', '45678912355'),
+('2025-11-18 16:00:00', 'Concluído', 10, 'Backup e Recuperação','32165498711'),
+('2025-11-21 11:15:00', 'Cancelado', 11, 'Limpeza Preventiva', '15975346822');
