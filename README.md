@@ -1,5 +1,5 @@
 # service-prov-db
-PT-BR [🌎 click here to read the english version](/service-prov-db/README.en.md)
+PT-BR 🌎 [click here to read the english version](/README.en.md)
 
 # Banco de dados para prestação de serviços
 
