@@ -1,5 +1,3 @@
-# service-prov-db
-
 # Banco de dados para prestação de serviços
 
 ## 📌 Resumo
