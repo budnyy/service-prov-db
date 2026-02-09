@@ -1,5 +1,4 @@
 # service-prov-db
-🌎 [english version](/README.en.md)
 
 # Banco de dados para prestação de serviços
 
